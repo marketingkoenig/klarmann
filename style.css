@@ -179,25 +179,31 @@ a.lm-pill:hover { border-color: #1B6E99; color: #1B6E99; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
-  background-color: #5C6B76;
-  -webkit-mask: var(--logo) no-repeat center / contain;
-  mask: var(--logo) no-repeat center / contain;
-  opacity: 0.85;
-  transition: opacity 0.25s ease;
+  height: 62px;
+  padding: 10px 20px;
+  background: #fff;
+  border: 1px solid rgba(16, 28, 38, 0.06);
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(12, 22, 30, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.trust-logo:hover { opacity: 1; }
-/* Wortmarken-Fallback, bis das echte Logo vorliegt: Maske deaktivieren, Text zeigen */
-.trust-logo:has(.trust-word) {
-  background-color: transparent;
-  -webkit-mask: none;
-  mask: none;
+.trust-logo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(12, 22, 30, 0.09);
 }
+.trust-img {
+  height: 38px;            /* feste Höhe: skaliert auch SVGs ohne intrinsische Maße korrekt */
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  display: block;
+}
+/* Wortmarken-Fallback, bis das echte Logo vorliegt */
 .trust-word {
   font-family: 'Work Sans', sans-serif;
   font-weight: 700;
-  font-size: 17px;
-  letter-spacing: 0.14em;
+  font-size: 16px;
+  letter-spacing: 0.12em;
   color: #5C6B76;
 }
 
