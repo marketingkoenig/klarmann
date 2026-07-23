@@ -22,7 +22,7 @@ Privates Repo auf github.com anlegen (z. B. `klarmann-website`), dann lokal:
 
 ```bash
 cd ~/Downloads/Klarmann
-git remote add origin git@github.com:<DEIN-KONTO>/klarmann-website.git
+git remote add origin https://github.com/MarketingKoenigGmbH/klarmann.git
 git branch -M main
 git push -u origin main
 ```
