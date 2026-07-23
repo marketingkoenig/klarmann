@@ -1,0 +1,76 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "**/.*",
+      "**/node_modules/**",
+      "functions/**",
+      "_generatoren/**",
+      "data/**",
+      "**/*.xlsx",
+      "*.rules",
+      "*.md",
+      "**/*.md",
+      "**/*.bak",
+      "package.json",
+      "package-lock.json",
+      "tailwind.config.js",
+      "src.css"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "redirects": [
+      { "source": "/unternehmen", "destination": "/ueber-uns", "type": 301 },
+      { "source": "/unternehmen/**", "destination": "/ueber-uns", "type": 301 },
+      { "source": "/historie", "destination": "/ueber-uns", "type": 301 },
+      { "source": "/kompetenzen", "destination": "/leistungen", "type": 301 },
+      { "source": "/kompetenzen/**", "destination": "/leistungen", "type": 301 },
+      { "source": "/gebrauchtmaschinen", "destination": "/", "type": 301 },
+      { "source": "/gebrauchtmaschinen/**", "destination": "/", "type": 301 },
+      { "source": "/agb", "destination": "/", "type": 301 },
+      { "source": "/sitemap", "destination": "/", "type": 301 },
+      { "source": "/molkereitechnik/**", "destination": "/molkereitechnik", "type": 301 },
+      { "source": "/behaelterbau/**", "destination": "/behaelterbau", "type": 301 },
+      { "source": "/sonderanlagen/**", "destination": "/sonderanlagen", "type": 301 },
+      { "source": "/kontakt/**", "destination": "/kontakt", "type": 301 },
+      { "source": "/karriere/**", "destination": "/karriere", "type": 301 }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache" }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=3600" }
+        ]
+      },
+      {
+        "source": "/assets/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
+      },
+      {
+        "source": "/downloads/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=86400" }
+        ]
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "functions": {
+    "source": "functions"
+  }
+}

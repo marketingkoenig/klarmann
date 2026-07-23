@@ -1,0 +1,13 @@
+{
+  "name": "klarmann-website",
+  "private": true,
+  "description": "Klarmann Edelstahlverarbeitung — statische Website (Firebase Hosting)",
+  "scripts": {
+    "css": "tailwindcss -c tailwind.config.js -i src.css -o assets/tailwind.css --minify",
+    "css:watch": "tailwindcss -c tailwind.config.js -i src.css -o assets/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.9",
+    "tailwindcss": "^3.4.17"
+  }
+}

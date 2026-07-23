@@ -1,0 +1,14 @@
+{
+  "name": "klarmann-functions",
+  "description": "Cloud Functions für Klarmann: E-Mail-Benachrichtigung bei neuen Bewerbungen",
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.1.0",
+    "nodemailer": "^6.9.16"
+  },
+  "private": true
+}

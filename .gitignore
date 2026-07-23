@@ -1,0 +1,22 @@
+# Abhängigkeiten
+node_modules/
+
+# Firebase-Arbeitsdateien
+.firebase/
+firebase-debug.log
+*-debug.log
+
+# Temporärer Sheet-Export (wird im Workflow erzeugt & wieder gelöscht)
+data/sheet-export.xlsx
+
+# Zugangsdaten NIEMALS committen
+gcp-sa.json
+*serviceaccount*.json
+*.pem
+
+# Redaktions-Sheet (liegt in Google Drive, nicht im Repo)
+*.xlsx
+
+# Backups & System
+*.bak
+.DS_Store

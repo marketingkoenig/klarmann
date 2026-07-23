@@ -1,0 +1,612 @@
+/* ============================================================
+   Klarmann Edelstahlverarbeitung — Basis-Styles
+   Navigation nach Claßen-Pattern (weiß, fix, Dropdowns)
+   ============================================================ */
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+html { overflow-x: hidden; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+/* Fixe Navigation → Inhalt beginnt darunter */
+body { padding-top: 68px; }
+@media (min-width: 768px) { body { padding-top: 84px; } }
+
+/* Hero füllt den Viewport unterhalb der Navigation */
+.hero-full { height: calc(100svh - 68px); min-height: 540px; }
+@media (min-width: 768px) { .hero-full { height: calc(100svh - 84px); min-height: 640px; } }
+
+/* Konstruktionsraster — "Zeichenpapier" in der Ansatz-Sektion */
+.bg-grid-pattern {
+  background-image: linear-gradient(to right, #e2e6e8 1px, transparent 1px),
+                    linear-gradient(to bottom, #e2e6e8 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+
+/* ---------- Hauptnavigation (immer weiß, Pattern: Claßen) ---------- */
+#main-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  background: rgba(251, 251, 249, 0.96);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(16, 28, 38, 0.08);
+}
+#main-nav .nav-bar { height: 68px; }
+@media (min-width: 768px) { #main-nav .nav-bar { height: 84px; } }
+
+#main-nav .nav-link {
+  color: #101C26;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 2px;
+  white-space: nowrap; /* längere EN-Menüpunkte (About us) nicht umbrechen */
+  transition: color 0.25s ease;
+}
+#main-nav .nav-link:hover { color: #1B6E99; }
+#main-nav .nav-link.is-active { color: #1B6E99; }
+#main-nav .nav-link.is-active::after {
+  content: '';
+  position: absolute;
+  left: 2px; right: 2px; bottom: -4px;
+  height: 2px;
+  background: #1B6E99;
+}
+
+/* Dropdowns */
+.nav-item { position: relative; }
+.nav-item > .nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  padding-top: 18px; /* Hover-Brücke */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 60;
+}
+.nav-item:hover > .nav-dropdown,
+.nav-item:focus-within > .nav-dropdown,
+.nav-item.is-open > .nav-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-panel {
+  background: #ffffff;
+  border: 1px solid rgba(16, 28, 38, 0.08);
+  box-shadow: 0 30px 60px rgba(12, 22, 30, 0.16);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.dd-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #8a949c;
+  font-weight: 600;
+  margin-bottom: 14px;
+  white-space: nowrap;
+}
+.dd-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 450;
+  color: #101C26;
+  padding: 7px 0;
+  white-space: nowrap;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+.dd-link:hover { color: #1B6E99; padding-left: 6px; }
+.dd-link .material-symbols-outlined { font-size: 14px; color: #1B6E99; opacity: 0; transition: opacity 0.2s ease; }
+.dd-link:hover .material-symbols-outlined { opacity: 1; }
+.dd-foot {
+  display: block;
+  padding: 13px 24px;
+  background: #EDF1F3;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  color: #101C26;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.dd-foot:hover { color: #fff; background: #1B6E99; }
+
+/* Sprach-Switch */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  color: #b3bcc2;
+  user-select: none;
+}
+.lang-switch .lang-active { color: #101C26; }
+.lang-switch .lang-soon { cursor: default; }
+.lang-switch .lang-link { color: #b3bcc2; transition: color 0.2s ease; }
+.lang-switch .lang-link:hover { color: #1B6E99; }
+
+/* Mobiler DE/EN-Umschalter in der Kopfzeile (neben dem Hamburger) — kompakte Pills */
+.lm-switch { display: inline-flex; align-items: center; }
+.lm-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 9px;
+  border: 1px solid rgba(16, 28, 38, 0.22);
+  border-radius: 3px;
+  font-family: 'Work Sans', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: #101C26;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.lm-pill--active { background: #101C26; color: #fff; border-color: #101C26; }
+a.lm-pill:hover { border-color: #1B6E99; color: #1B6E99; }
+
+/* Kundenlogo-Band: CSS-Maske färbt jedes Logo (SVG/PNG mit Transparenz) einheitlich ein */
+.trust-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  background-color: #5C6B76;
+  -webkit-mask: var(--logo) no-repeat center / contain;
+  mask: var(--logo) no-repeat center / contain;
+  opacity: 0.85;
+  transition: opacity 0.25s ease;
+}
+.trust-logo:hover { opacity: 1; }
+/* Wortmarken-Fallback, bis das echte Logo vorliegt: Maske deaktivieren, Text zeigen */
+.trust-logo:has(.trust-word) {
+  background-color: transparent;
+  -webkit-mask: none;
+  mask: none;
+}
+.trust-word {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.14em;
+  color: #5C6B76;
+}
+
+/* Kontakt-Button in der Navigation */
+.btn-nav-kontakt {
+  background: #1B6E99;
+  color: #fff;
+  padding: 12px 22px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.25s ease;
+}
+.btn-nav-kontakt:hover { background: #101C26; }
+
+/* Standard-CTA-Buttons */
+.btn-primary {
+  background: #101C26;
+  color: #fff;
+  padding: 16px 36px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.25s ease;
+}
+.btn-primary:hover { background: #1B6E99; }
+.btn-secondary {
+  border: 1px solid rgba(16, 28, 38, 0.25);
+  color: #101C26;
+  padding: 15px 32px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+.btn-secondary:hover { border-color: #1B6E99; color: #1B6E99; }
+
+/* Zertifikats-Chips */
+.cert-chip {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 22px;
+  border: 1px solid rgba(16, 28, 38, 0.12);
+  border-radius: 2px;
+  background: #fff;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+  white-space: nowrap;
+}
+.cert-chip:hover { border-color: #1B6E99; transform: translateY(-2px); }
+.cert-chip .cert-name { font-weight: 700; font-size: 14px; color: #101C26; letter-spacing: 0.02em; }
+.cert-chip .cert-sub { font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: #5c6b76; }
+
+/* Cookie-Consent-Banner */
+#consent-banner {
+  position: fixed;
+  left: 16px; right: 16px; bottom: 16px;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+#consent-banner .consent-card {
+  pointer-events: auto;
+  max-width: 560px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(16, 28, 38, 0.1);
+  border-radius: 4px;
+  box-shadow: 0 30px 70px rgba(12, 22, 30, 0.28);
+  padding: 22px 24px;
+}
+.consent-titel { font-weight: 700; font-size: 15px; color: #101C26; margin-bottom: 6px; }
+.consent-text { font-weight: 300; font-size: 13.5px; line-height: 1.55; color: #5c6b76; }
+.consent-text a { color: #1B6E99; text-decoration: underline; text-underline-offset: 2px; }
+.consent-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.consent-btn {
+  flex: 1 1 auto;
+  padding: 12px 18px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+.consent-btn--primaer { background: #1B6E99; border: 1px solid #1B6E99; color: #fff; }
+.consent-btn--primaer:hover { background: #101C26; border-color: #101C26; }
+.consent-btn--sekundaer { background: #fff; border: 1px solid rgba(16, 28, 38, 0.25); color: #101C26; }
+.consent-btn--sekundaer:hover { border-color: #101C26; }
+
+/* Referenzen: Branchen-Filter */
+.filter-btn {
+  padding: 10px 20px;
+  border: 1px solid rgba(16, 28, 38, 0.15);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  color: #52616b;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+.filter-btn:hover { border-color: #1B6E99; color: #1B6E99; }
+.filter-btn.is-active { background: #1B6E99; border-color: #1B6E99; color: #fff; }
+.filter-btn .count { opacity: 0.6; margin-left: 4px; }
+
+.ref-card.is-hidden { display: none; }
+
+/* Referenz-Detail-Dialog */
+.ref-dialog {
+  border: 0;
+  padding: 0;
+  max-width: 880px;
+  width: calc(100% - 32px);
+  max-height: calc(100svh - 48px);
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 40px 100px rgba(12, 22, 30, 0.35);
+}
+.ref-dialog::backdrop {
+  background: rgba(12, 22, 30, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.ref-dialog-scroll {
+  overflow-y: auto;
+  max-height: calc(100svh - 48px);
+}
+.ref-dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #101C26;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.ref-dialog-close:hover { background: #1B6E99; color: #fff; }
+.eck-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(16, 28, 38, 0.08);
+}
+@media (max-width: 480px) { .eck-row { grid-template-columns: 1fr; gap: 2px; } }
+
+/* ---------- Bewerbungs-Funnel (mehrstufig, Karriere-Seite) ---------- */
+.wz-progress-wrap { max-width: 320px; margin: 0 auto 8px; }
+.wz-progress-label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #101C26;
+  margin-bottom: 6px;
+}
+.wz-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: #e2e8ec;
+  overflow: hidden;
+}
+.wz-progress-bar {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: #1B6E99;
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wz-step { display: none; }
+.wz-step.is-active { display: block; animation: wzIn 0.35s ease; }
+@keyframes wzIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Auswahlkarten */
+.wz-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid rgba(16, 28, 38, 0.14);
+  border-radius: 6px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-family: inherit;
+}
+.wz-option:hover { border-color: #1B6E99; }
+.wz-option.is-selected {
+  border-color: #1B6E99;
+  background: rgba(27, 110, 153, 0.06);
+  box-shadow: 0 0 0 1px #1B6E99;
+}
+.wz-option .wz-num {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: #EDF1F3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #101C26;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.wz-option.is-selected .wz-num { background: #1B6E99; color: #fff; }
+.wz-option .wz-opt-title { font-weight: 600; font-size: 15px; color: #101C26; }
+.wz-option .wz-opt-sub { font-weight: 300; font-size: 13px; color: #5c6b76; margin-top: 2px; }
+
+/* Chips (Mehrfachauswahl) */
+.wz-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(16, 28, 38, 0.16);
+  border-radius: 999px;
+  background: #fff;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #101C26;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+.wz-chip:hover { border-color: #1B6E99; }
+.wz-chip.is-selected { background: #1B6E99; border-color: #1B6E99; color: #fff; }
+
+/* Pflicht-Validierung */
+.wz-group.is-error .wz-option,
+.wz-group.is-error .wz-chip { border-color: #d9534f; }
+.wz-error-text {
+  display: none;
+  color: #d9534f;
+  font-size: 13px;
+  margin-top: 10px;
+}
+.wz-group.is-error + .wz-error-text,
+.wz-group.is-error .wz-error-text { display: block; }
+
+/* Navigation */
+.wz-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 28px; }
+.wz-back {
+  background: none;
+  border: 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #8a949c;
+  cursor: pointer;
+  padding: 10px 0;
+  font-family: inherit;
+  transition: color 0.2s ease;
+}
+.wz-back:hover { color: #101C26; }
+.wz-back[hidden] { visibility: hidden; display: block; }
+
+/* Sticky-Bewerben-Leiste (mobil, Karriere-Seite) */
+.sticky-apply {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 60;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  background: #1B6E99;
+  box-shadow: 0 -12px 30px rgba(12, 22, 30, 0.18);
+}
+
+/* FAQ-Accordion */
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item .faq-icon { transition: transform 0.3s ease; flex-shrink: 0; margin-left: 16px; }
+.faq-item[open] .faq-icon { transform: rotate(45deg); }
+
+/* Hinweis-Badge für Seiten im Aufbau */
+.wip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  color: #8a949c;
+  border: 1px dashed rgba(16, 28, 38, 0.2);
+  padding: 8px 14px;
+  border-radius: 2px;
+}
+
+/* ---------- Branding ---------- */
+.brand-logo-wrap {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 5px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+.brand-logo-wrap--large { width: 58px; height: 58px; padding: 7px; }
+.brand-logo-wrap--footer { background: transparent; box-shadow: none; padding: 0; }
+.brand-logo-img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.brand-lockup { min-width: 0; }
+
+@media (max-width: 420px) {
+  .brand-logo-wrap { width: 36px; height: 36px; padding: 4px; }
+}
+
+/* ---------- Hero-Slider ---------- */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 1.25s ease;
+  will-change: opacity;
+}
+.hero-slide.is-active { opacity: 1; }
+
+.hero-dot {
+  width: 42px;
+  height: 3px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.38);
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.hero-dot.is-active { width: 64px; background: #fff; }
+
+/* Curtain-Reveal-Karten */
+.project-card {
+  will-change: clip-path, transform, opacity;
+  transform-origin: top center;
+}
+
+/* Anton besitzt kein echtes Kursiv — synthetische Neigung */
+.font-headline em, em.font-headline, .italic.font-headline { font-style: italic; }
+
+:focus-visible { outline: 2px solid #1B6E99; outline-offset: 3px; }
+/* Auf dunklen Flächen (Footer, Steel-Sektionen) hellerer Fokus-Ring für Kontrast */
+.bg-steel :focus-visible, footer :focus-visible, header :focus-visible { outline-color: #7FC0E4; }
+::selection { background: #1B6E99; color: #fff; }
+
+/* Skip-Link: erst bei Tastatur-Fokus sichtbar (WCAG 2.4.1) */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  transform: translateY(-120%);
+  background: #101C26;
+  color: #fff;
+  padding: 12px 22px;
+  font-family: 'Work Sans', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom-right-radius: 4px;
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid #7FC0E4;
+  outline-offset: -4px;
+}
+
+/* <picture> layout-transparent halten: das <img> verhält sich exakt wie zuvor */
+picture { display: contents; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .hero-slide:not(.is-active) { display: none; }
+}

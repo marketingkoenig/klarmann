@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// Bewerbungen: Besucher dürfen nur anlegen (create), niemals lesen/ändern.
+// Lesen ausschließlich über die Firebase-Konsole bzw. Admin-SDK (Cloud Function).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /bewerbungen/{bewerbungId} {
+      allow create: if request.resource.data.keys().hasAll(['stelle', 'name', 'telefon'])
+        && request.resource.data.stelle is string && request.resource.data.stelle.size() <= 80
+        && request.resource.data.name is string && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 120
+        && request.resource.data.telefon is string && request.resource.data.telefon.size() >= 5
+        && request.resource.data.telefon.size() <= 40
+        && (!('email' in request.resource.data) || request.resource.data.email.size() <= 120)
+        && (!('erfahrung' in request.resource.data) || request.resource.data.erfahrung.size() <= 1000);
+      allow read, update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

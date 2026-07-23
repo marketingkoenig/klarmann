@@ -1,0 +1,4 @@
+/* Tailwind-Quelldatei — Build: npm run css  (Ausgabe: assets/tailwind.css) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

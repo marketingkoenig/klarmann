@@ -1,0 +1,85 @@
+name: Website aus Google-Sheet veröffentlichen
+
+# Läuft zeitgesteuert alle 15 Minuten und lässt sich in GitHub unter
+# „Actions" auch manuell per Knopf starten (workflow_dispatch).
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+# Nie zwei Läufe gleichzeitig (verhindert doppelte Deploys/Commits).
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+# Der Workflow committet die neu erzeugten Seiten zurück ins Repo.
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo auschecken
+        uses: actions/checkout@v4
+
+      - name: Node einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Abhängigkeiten installieren
+        run: |
+          npm install
+          npm install -g firebase-tools
+          pip install openpyxl google-api-python-client google-auth
+
+      - name: Google-Zugangsdaten schreiben
+        run: printf '%s' "$GCP_SA_KEY" > "$RUNNER_TEMP/gcp-sa.json"
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Sheet laden → Daten übernehmen → Seiten bauen → prüfen
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-sa.json
+          SHEET_FILE_ID: ${{ vars.SHEET_FILE_ID }}
+        run: |
+          python _generatoren/fetch-sheet.py
+          python _generatoren/merge-sheet.py data/sheet-export.xlsx
+          node _generatoren/sync.mjs          # apply-content + inject-lang + css + bust-cache + check-site (ohne Deploy)
+          rm -f data/sheet-export.xlsx
+
+      - name: Änderungen erkennen
+        id: diff
+        run: |
+          if [ -n "$(git status --porcelain -- ':(glob)**/*.html')" ]; then
+            echo "html=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "html=false" >> "$GITHUB_OUTPUT"
+            echo "→ Keine Seitenänderung. Nichts zu veröffentlichen."
+          fi
+          if [ -n "$(git status --porcelain -- data/inhalte.json ':(glob)**/*.html')" ]; then
+            echo "any=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "any=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Auf Firebase veröffentlichen
+        if: steps.diff.outputs.html == 'true'
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcp-sa.json
+        run: firebase deploy --only hosting --project klarmann-edelstahl --non-interactive
+
+      - name: Neu erzeugte Seiten zurück ins Repo committen
+        if: steps.diff.outputs.any == 'true'
+        run: |
+          git config user.name "Klarmann Auto-Publish"
+          git config user.email "actions@users.noreply.github.com"
+          git add -- data/inhalte.json ':(glob)**/*.html' assets/tailwind.css
+          git commit -m "Auto-Publish aus Google-Sheet [skip ci]" || echo "nichts zu committen"
+          git push
