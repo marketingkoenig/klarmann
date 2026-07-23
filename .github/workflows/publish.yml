@@ -38,7 +38,7 @@ jobs:
         # und Tailwind/CSS wird in der Automatik nicht neu gebaut (--no-css).
         run: |
           npm install -g firebase-tools
-          pip install openpyxl google-api-python-client google-auth
+          pip install openpyxl google-api-python-client google-auth pillow
 
       - name: Google-Zugangsdaten schreiben
         run: printf '%s' "$GCP_SA_KEY" > "$RUNNER_TEMP/gcp-sa.json"
@@ -52,6 +52,7 @@ jobs:
         run: |
           python _generatoren/fetch-sheet.py
           python _generatoren/merge-sheet.py data/sheet-export.xlsx
+          python _generatoren/fetch-images.py   # fehlende Referenzbilder aus Drive laden + optimieren (JPG/WebP)
           node _generatoren/sync.mjs --no-css   # apply-content + inject-lang + bust-cache + check-site (ohne Deploy, ohne CSS-Neubau)
           rm -f data/sheet-export.xlsx
 
@@ -81,6 +82,6 @@ jobs:
         run: |
           git config user.name "Klarmann Auto-Publish"
           git config user.email "actions@users.noreply.github.com"
-          git add -- data/inhalte.json ':(glob)**/*.html' assets/tailwind.css
+          git add -- data/inhalte.json ':(glob)**/*.html' assets/tailwind.css assets/img
           git commit -m "Auto-Publish aus Google-Sheet [skip ci]" || echo "nichts zu committen"
           git push

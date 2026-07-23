@@ -145,10 +145,20 @@ const MARK = {
   de: { cardsEnd: '\n        </div>\n        <!-- Alle Karten', detailsEnd: '\n    </div>\n\n    <!-- Projekt-Overlay -->' },
   en: { cardsEnd: '\n        </div>\n        <!-- All cards', detailsEnd: '\n    </div>\n\n    <!-- Project overlay -->' },
 };
+// Sichtbare Referenzen = nicht 'versteckt' UND Bild vorhanden. Sicherheitsnetz:
+// fehlt das Bild (Dateiname vertippt oder noch nicht im Ordner), wird die Referenz
+// übersprungen statt mit kaputtem Bild veröffentlicht.
+const visible = data.referenzen.filter(r => {
+  if (r.status === 'versteckt') return false;
+  if (!existsSync(ROOT + 'assets/img/' + r.bild)) {
+    console.warn('⚠ Referenz übersprungen (Bild fehlt): ' + r.slug + ' → ' + r.bild);
+    return false;
+  }
+  return true;
+});
 for (const lang of ['de', 'en']) {
   const file = lang === 'de' ? 'referenzen.html' : 'en/references.html';
   let html = readFileSync(ROOT + file, 'utf8');
-  const visible = data.referenzen.filter(r => r.status !== 'versteckt');
   const cards = visible.map(r => card(r, lang)).join('\n');
   const details = visible.map(r => detail(r, lang)).join('\n');
 
@@ -160,7 +170,7 @@ for (const lang of ['de', 'en']) {
     MARK[lang].detailsEnd, details);
   writeFileSync(ROOT + file, html, 'utf8');
 }
-console.log('✓ apply-content: Referenzen (Karten + Details) DE & EN regeneriert —', data.referenzen.filter(r => r.status !== 'versteckt').length, 'sichtbar');
+console.log('✓ apply-content: Referenzen (Karten + Details) DE & EN regeneriert —', visible.length, 'sichtbar');
 
 // ============================ Stellen ============================
 // Drei Regionen: JobPosting-JSON-LD (nur DE), "Wen wir suchen"-Karten (DE+EN),
