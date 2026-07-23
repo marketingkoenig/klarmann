@@ -20,3 +20,6 @@ gcp-sa.json
 # Backups & System
 *.bak
 .DS_Store
+
+# Lokale Editor-/Tool-Einstellungen
+.claude/settings.local.json
