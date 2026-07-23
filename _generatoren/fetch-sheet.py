@@ -15,8 +15,10 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + "/"
+# os.environ.get(..., default) liefert bei GESETZTER, aber LEERER Variable "" statt
+# des Defaults — daher `or`, damit eine leere SHEET_FILE_ID auf die Standard-ID fällt.
 FILE_ID = (sys.argv[1] if len(sys.argv) > 1
-           else os.environ.get("SHEET_FILE_ID", "1WzebQaYVGuqtmMsxuz1UmPWgrpcjgNeP"))
+           else os.environ.get("SHEET_FILE_ID") or "1WzebQaYVGuqtmMsxuz1UmPWgrpcjgNeP")
 OUT = sys.argv[2] if len(sys.argv) > 2 else ROOT + "data/sheet-export.xlsx"
 XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
