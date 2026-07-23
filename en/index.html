@@ -14,11 +14,11 @@
   <link rel="preload" href="/assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/fonts.css" />
 
-  <link rel="stylesheet" href="/assets/tailwind.css?v=e619fe117c" />
+  <link rel="stylesheet" href="/assets/tailwind.css?v=76f0df70e1" />
 
-  <script src="/script.js?v=e619fe117c" defer></script>
-  <script src="/consent.js?v=e619fe117c" defer></script>
-  <link rel="stylesheet" href="/style.css?v=e619fe117c" />
+  <script src="/script.js?v=76f0df70e1" defer></script>
+  <script src="/consent.js?v=76f0df70e1" defer></script>
+  <link rel="stylesheet" href="/style.css?v=76f0df70e1" />
 
   <!-- SEO / Social -->
   <link rel="canonical" href="https://klarmann-edelstahl.de/en/" />
@@ -477,19 +477,20 @@
   </section>
 
   <!-- ============ Customer logo band (trust) ============ -->
-  <!-- New logos: put a colour logo (transparent or on white) in assets/img/logos/ and add a
-       trust-logo element with a trust-img image here. No logo yet? Use trust-word with the company name. -->
+  <!-- New logos: put a single-colour silhouette (transparent PNG/SVG) in assets/img/logos/ and add a
+       trust-logo element with style="--logo:url(...);width:XXpx" (tinted uniformly grey via mask).
+       No clean logo yet? Use trust-word with the company name. -->
   <section id="kundenlogos" class="py-12 md:py-16 bg-mist border-y border-ink/5">
     <div class="container mx-auto px-5 md:px-8">
       <p class="font-label text-[10px] uppercase tracking-[0.2em] text-zinc-500 text-center mb-8">Companies that trust Klarmann</p>
       <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-7 md:gap-x-14">
-        <span class="trust-logo"><img class="trust-img" src="/assets/img/logos/ammerland.svg" alt="Molkerei Ammerland" title="Molkerei Ammerland" loading="lazy" /></span>
-        <span class="trust-logo"><img class="trust-img" src="/assets/img/logos/jowat.svg" alt="JOWAT" title="JOWAT" loading="lazy" /></span>
-        <span class="trust-logo"><img class="trust-img" src="/assets/img/logos/bahlsen.png" alt="Bahlsen" title="Bahlsen" loading="lazy" /></span>
-        <span class="trust-logo"><img class="trust-img" src="/assets/img/logos/lomapharm.png" alt="Lomapharm" title="Lomapharm" loading="lazy" /></span>
-        <span class="trust-logo"><img class="trust-img" src="/assets/img/logos/saturn.png" alt="Saturn Petcare" title="Saturn Petcare" loading="lazy" /></span>
-        <span class="trust-logo"><img class="trust-img" src="/assets/img/logos/juetro.png" alt="Jütro" title="Jütro" loading="lazy" /></span>
-        <span class="trust-logo"><img class="trust-img" src="/assets/img/logos/delba.png" alt="Delba" title="Delba" loading="lazy" /></span>
+        <span class="trust-logo" role="img" aria-label="Molkerei Ammerland" title="Molkerei Ammerland"><span class="trust-word">MOLKEREI AMMERLAND</span></span>
+        <span class="trust-logo" role="img" aria-label="JOWAT" title="JOWAT" style="--logo:url('/assets/img/logos/jowat.svg');width:104px"></span>
+        <span class="trust-logo" role="img" aria-label="Bahlsen" title="Bahlsen" style="--logo:url('/assets/img/logos/bahlsen-mono.png');width:129px"></span>
+        <span class="trust-logo" role="img" aria-label="Lomapharm" title="Lomapharm" style="--logo:url('/assets/img/logos/lomapharm.png');width:168px"></span>
+        <span class="trust-logo" role="img" aria-label="Saturn Petcare" title="Saturn Petcare" style="--logo:url('/assets/img/logos/saturn.png');width:60px;height:40px"></span>
+        <span class="trust-logo" role="img" aria-label="Jütro" title="Jütro" style="--logo:url('/assets/img/logos/juetro-mono.png');width:68px"></span>
+        <span class="trust-logo" role="img" aria-label="Delba" title="Delba"><span class="trust-word">DELBA</span></span>
         <span class="trust-logo" role="img" aria-label="Grotmann" title="Grotmann"><span class="trust-word">GROTMANN</span></span>
       </div>
     </div>

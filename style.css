@@ -179,31 +179,26 @@ a.lm-pill:hover { border-color: #1B6E99; color: #1B6E99; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 62px;
-  padding: 10px 20px;
-  background: #fff;
-  border: 1px solid rgba(16, 28, 38, 0.06);
-  border-radius: 8px;
-  box-shadow: 0 10px 24px rgba(12, 22, 30, 0.05);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  flex: none;              /* leere Masken-Logos dürfen im Flex nicht auf Breite 0 schrumpfen */
+  height: 32px;
+  background-color: #5C6B76;
+  -webkit-mask: var(--logo) no-repeat center / contain;
+  mask: var(--logo) no-repeat center / contain;
+  opacity: 0.85;
+  transition: opacity 0.25s ease;
 }
-.trust-logo:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(12, 22, 30, 0.09);
+.trust-logo:hover { opacity: 1; }
+/* Wortmarken-Fallback (Maske aus, Text zeigen) — für Firmen ohne saubere Logo-Silhouette */
+.trust-logo:has(.trust-word) {
+  background-color: transparent;
+  -webkit-mask: none;
+  mask: none;
 }
-.trust-img {
-  height: 38px;            /* feste Höhe: skaliert auch SVGs ohne intrinsische Maße korrekt */
-  width: auto;
-  max-width: 150px;
-  object-fit: contain;
-  display: block;
-}
-/* Wortmarken-Fallback, bis das echte Logo vorliegt */
 .trust-word {
   font-family: 'Work Sans', sans-serif;
   font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 0.12em;
+  font-size: 17px;
+  letter-spacing: 0.14em;
   color: #5C6B76;
 }
 
