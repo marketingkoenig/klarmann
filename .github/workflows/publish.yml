@@ -34,8 +34,9 @@ jobs:
           python-version: "3.12"
 
       - name: Abhängigkeiten installieren
+        # Kein `npm install` nötig: die Sync-Skripte nutzen nur Node-Bordmittel,
+        # und Tailwind/CSS wird in der Automatik nicht neu gebaut (--no-css).
         run: |
-          npm install
           npm install -g firebase-tools
           pip install openpyxl google-api-python-client google-auth
 
@@ -51,7 +52,7 @@ jobs:
         run: |
           python _generatoren/fetch-sheet.py
           python _generatoren/merge-sheet.py data/sheet-export.xlsx
-          node _generatoren/sync.mjs          # apply-content + inject-lang + css + bust-cache + check-site (ohne Deploy)
+          node _generatoren/sync.mjs --no-css   # apply-content + inject-lang + bust-cache + check-site (ohne Deploy, ohne CSS-Neubau)
           rm -f data/sheet-export.xlsx
 
       - name: Änderungen erkennen

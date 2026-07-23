@@ -10,10 +10,12 @@ const run = (cmd, opts = {}) => {
 };
 
 try {
-  run('node _generatoren/apply-content.mjs');   // Referenzen (+ später Stellen) aus Daten
+  run('node _generatoren/apply-content.mjs');   // Referenzen + Stellen aus Daten
   run('node _generatoren/inject-lang.mjs');      // hreflang + Sprachumschalter frisch
-  run('npm run css');                            // Tailwind (falls neue Klassen)
-  run('node _generatoren/bust-cache.mjs');       // Cache-Version bumpen
+  if (!process.argv.includes('--no-css')) {
+    run('npm run css');                          // Tailwind (nur bei Style-Änderungen nötig; in der Automatik übersprungen)
+  }
+  run('node _generatoren/bust-cache.mjs');       // Cache-Version (Inhalts-Hash) aktualisieren
   run('node _generatoren/check-site.mjs');       // Integrität — bricht bei Fehler ab
   if (process.argv.includes('--deploy')) {
     run('npx firebase-tools deploy --only hosting');
